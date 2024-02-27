@@ -17,17 +17,18 @@ main() {
 
 	while true
 		do
+			echo ''
 			case $option in
 				0)
 					echo "Farewell!"
 					exit
 					;;
 				1)
-					echo "Not implemented!" 
+					uname -on 
 					main
 					;;
 				2)
-					echo "Not implemented!"
+					whoami
 					main
 					;;
 				3) 
