@@ -40,21 +40,22 @@ file_dir_opr() {
                     main
                     ;;
                 'up')
-                    echo "Not implemented!"
+					cd ..
                     ;;
                 *)
-                    if [[ -e "$selection" ]]; then
+                    if [[ -d "$selection" ]]; then
+                        cd $selection
+                    elif [[ -f "$selection" ]]; then
                         echo "Not implemented!"
-                    else
+                    else 
                         echo "Invalid input!"
                     fi
                     ;;
             esac
             echo ''
-            file_dir_opr $1
+            file_dir_opr .
         done
 }
-
 
 
 main() {
@@ -71,30 +72,23 @@ main() {
                     ;;
                 1)
                     uname -on
-                    main
                     ;;
                 2)
                     whoami
-                    main
                     ;;
                 3)
                     file_dir_opr .
-                    main
                     ;;
                 4)
                     echo "Not implemented!"
-                    main
                     ;;
                 *)
                     echo "Invalid option!"
-                    main
                     ;;
             esac
+            main
         done
-
 }
-
-
 
 
 # execute program
