@@ -1,6 +1,5 @@
 #! /bin/bash
 
-
 menu="
 ------------------------------
 | Hyper Commander            |
@@ -16,10 +15,57 @@ file_menu="
 | 0 Main menu | 'up' To parent | 'name' To select |
 ---------------------------------------------------"
 
+
+file_operation_menu="
+---------------------------------------------------------------------
+| 0 Back | 1 Delete | 2 Rename | 3 Make writable | 4 Make read-only |
+---------------------------------------------------------------------
+"
+
+
+file_operation() {
+    echo "$file_operation_menu"
+    echo $1
+    read operation
+    while true;
+        do
+            case $operation in
+                0)
+                    break;;
+                1)
+                    rm -f $1
+                    echo "$1 has been deleted."
+                    break
+                    ;;
+                2)
+                    read -p "Enter the new file name: " new_name
+                    mv $1 $new_name
+                    echo "$1 has been renamed as $new_name"
+                    break
+                    ;;
+                3)
+                	chmod 666 $1
+                	echo "Permissions have been updated."
+					ls -l $1
+					break
+					;;
+                4)
+                    chmod 664 $1
+                    echo "Permissions have been updated."
+                    ls -l $1
+                    break
+                    ;;
+                *)
+                    echo "Invalid input!"
+                    file_operation $1
+            esac
+        done
+}
+
+
 file_dir_opr() {
     echo 'The list of files and directories:'
-    dir_content=$(ls $1)
-    for i in $dir_content
+    for i in * 
         do
             if [[ -f "$i" ]]; then
                 echo "F $i"
@@ -46,14 +92,14 @@ file_dir_opr() {
                     if [[ -d "$selection" ]]; then
                         cd $selection
                     elif [[ -f "$selection" ]]; then
-                        echo "Not implemented!"
+                        file_operation $selection
                     else 
                         echo "Invalid input!"
                     fi
                     ;;
             esac
             echo ''
-            file_dir_opr .
+            file_dir_opr
         done
 }
 
@@ -77,7 +123,7 @@ main() {
                     whoami
                     ;;
                 3)
-                    file_dir_opr .
+                    file_dir_opr
                     ;;
                 4)
                     echo "Not implemented!"
@@ -90,8 +136,6 @@ main() {
         done
 }
 
-
 # execute program
-
 echo "Hello ${USER}!"
 main
