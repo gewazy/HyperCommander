@@ -15,12 +15,25 @@ file_menu="
 | 0 Main menu | 'up' To parent | 'name' To select |
 ---------------------------------------------------"
 
-
 file_operation_menu="
 ---------------------------------------------------------------------
 | 0 Back | 1 Delete | 2 Rename | 3 Make writable | 4 Make read-only |
 ---------------------------------------------------------------------
 "
+
+
+exe_opration() {
+    echo -e "Enter an executable name:\n"
+    read exe_name
+    if [[ $(which $exe_name 2>/dev/null) ]]; then
+        echo -e "\nLocated in: $(which $exe_name)\n"
+        echo "Enter arguments:/n"
+        read args
+        ${exe_name} ${args}
+    else
+        echo "The executable with that name does not exist!"
+    fi
+}
 
 
 file_operation() {
@@ -44,11 +57,11 @@ file_operation() {
                     break
                     ;;
                 3)
-                	chmod 666 $1
-                	echo "Permissions have been updated."
-					ls -l $1
-					break
-					;;
+                    chmod 666 $1
+                    echo "Permissions have been updated."
+                    ls -l $1
+                    break
+                    ;;
                 4)
                     chmod 664 $1
                     echo "Permissions have been updated."
@@ -65,7 +78,7 @@ file_operation() {
 
 file_dir_opr() {
     echo 'The list of files and directories:'
-    for i in * 
+    for i in *
         do
             if [[ -f "$i" ]]; then
                 echo "F $i"
@@ -86,14 +99,14 @@ file_dir_opr() {
                     main
                     ;;
                 'up')
-					cd ..
+                    cd ..
                     ;;
                 *)
                     if [[ -d "$selection" ]]; then
                         cd $selection
                     elif [[ -f "$selection" ]]; then
                         file_operation $selection
-                    else 
+                    else
                         echo "Invalid input!"
                     fi
                     ;;
@@ -126,7 +139,7 @@ main() {
                     file_dir_opr
                     ;;
                 4)
-                    echo "Not implemented!"
+                    exe_opration
                     ;;
                 *)
                     echo "Invalid option!"
