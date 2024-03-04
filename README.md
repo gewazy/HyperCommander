@@ -1,3 +1,4 @@
 # Hyper Commander
 
-Hyperskills Bash project of the file manager.  
+Hyperskills 
+Bash project: hypercommander - file manager.  
